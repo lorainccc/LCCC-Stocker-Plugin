@@ -1,0 +1,15 @@
+.lccc-sponsor img{
+	    margin-top: 2rem;
+    filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id…0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0'/></filter></svg>#grayscale");
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+    -webkit-filter: gray;
+            filter: gray;
+    -webkit-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+
+}
+.lccc-sponsor img:hover{
+	-webkit-filter: none;
+	        filter: none;
+}
