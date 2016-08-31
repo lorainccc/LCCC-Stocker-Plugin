@@ -73,7 +73,8 @@ class Lccc_Stocker_Plug_In_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/lccc-stocker-plug-in-admin.css', array(), $this->version, 'all' );
+  //Commenting out since the files are empty.
+		//wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/lccc-stocker-plug-in-admin.css', array(), $this->version, 'all' );
 
 	}
 
@@ -96,7 +97,8 @@ class Lccc_Stocker_Plug_In_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/lccc-stocker-plug-in-admin.js', array( 'jquery' ), $this->version, false );
+  //Commenting out since the files are empty.
+		//wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/lccc-stocker-plug-in-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
 
