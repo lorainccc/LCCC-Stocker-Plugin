@@ -79,7 +79,9 @@ function run_lccc_stocker_plug_in() {
 	$plugin->run();
 
 }
+
 run_lccc_stocker_plug_in();
 require_once( plugin_dir_path( __FILE__ ).'php/lccc_stocker_sponsor_cpt.php' );
 require_once( plugin_dir_path( __FILE__ ).'php/widget-lccc-stocker-sponsor.php' );
 require_once( plugin_dir_path( __FILE__ ).'php/lccc-sponsor-metabox.php' );
+require_once( plugin_dir_path( __FILE__ ).'php/lc-spektrix-integration.php' );
