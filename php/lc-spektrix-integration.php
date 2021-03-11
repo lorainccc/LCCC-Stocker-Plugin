@@ -40,7 +40,15 @@ function lc_show_ticket_sales_meta_box( $object, $box ) { ?>
         <label for="lc_ticket_sales_iframe_url_field">
             <?php _e( "Spektrix iFrame: ", "lorainccc" ); ?>
         </label>
-        <input type="text" name="lc_ticket_sales_iframe_url_field" id="lc_ticket_sales_iframe_url_field" value="<?php echo esc_attr( get_post_meta ( $object->ID, 'lc_ticket_sales_iframe_url_field', true ) ); ?>" size="90" />
+        <select name="lc_ticket_sales_iframe_url_field" id="lc_ticket_sales_iframe_url_field">
+            <?php
+            $options = array('select..','ChooseSeats','Basket', 'MyAccount');
+            foreach ($options as $option) {
+                $iframe = esc_attr( get_post_meta ( $object->ID, 'lc_ticket_sales_iframe_url_field', true ) );
+                echo '<option value="' . $option . '" id="' . $option . '"', $iframe == $option ? ' selected="selected"' : '', '>', $option, '</option>';
+            }
+            ?>
+        </select>
     </p>
 
     <?php
