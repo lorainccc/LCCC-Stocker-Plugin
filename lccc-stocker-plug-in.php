@@ -100,8 +100,13 @@ function lc_addEventImportButton(){
 	</script>
 <?php
 }
-
 add_action('admin_head-edit.php','lc_addEventImportButton');
+
+/* function lc_load_custom_wp_admin_style($hook ) {
+	wp_die($hook );
+	}
+	
+add_action('admin_enqueue_scripts', 'lc_load_custom_wp_admin_style' ); */
 
 run_lccc_stocker_plug_in();
 

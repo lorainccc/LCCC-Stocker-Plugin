@@ -240,14 +240,72 @@ function lc_event_import(){
 
 
         echo '</div>';
-    }else{     
+    }else{
+        
+        if( $_POST['action'] == 'filterdates' ){
+            check_admin_referer( 'filter-date', '_wpnonce_filter-date' );                       
+            $requestUrl = $sDomain ."/api/v3/events?\$expand=instances";  
+            
+            $currentYear = date("Y");
 
-    $requestUrl = "/api/v3/events";
-    
-    //?$expand=instances
-    
-    $requestUrl = $sDomain ."/api/v3/events?\$expand=instances";
-    //echo "<p><a href='" . $requestUrl . "' target='_blank'>" . $requestUrl . "</a></p>";
+            switch( $_POST['month'] ){
+                case 'January':
+                    $requestUrl = $sDomain ."/api/v3/events?\$expand=instances&instanceStart_from=1/1/" . $currentYear . "&instanceStart_to=1/31/". $currentYear;
+                break;
+
+                case 'February':
+                    $requestUrl = $sDomain ."/api/v3/events?\$expand=instances&instanceStart_from=2/1/" . $currentYear . "&instanceStart_to=2/28/". $currentYear;
+                break;
+
+                case 'March':
+                    $requestUrl = $sDomain ."/api/v3/events?\$expand=instances&instanceStart_from=3/1/" . $currentYear . "&instanceStart_to=3/31/". $currentYear;
+                break;
+
+                case 'April':
+                    $requestUrl = $sDomain ."/api/v3/events?\$expand=instances&instanceStart_from=4/1/" . $currentYear . "&instanceStart_to=4/30/". $currentYear;
+                break;
+                
+                case 'May':
+                    $requestUrl = $sDomain ."/api/v3/events?\$expand=instances&instanceStart_from=5/1/" . $currentYear . "&instanceStart_to=5/31/". $currentYear;
+                break;
+
+                case 'June':
+                    $requestUrl = $sDomain ."/api/v3/events?\$expand=instances&instanceStart_from=6/1/" . $currentYear . "&instanceStart_to=6/30/". $currentYear;
+                break;
+
+                case 'July':
+                    $requestUrl = $sDomain ."/api/v3/events?\$expand=instances&instanceStart_from=7/1/" . $currentYear . "&instanceStart_to=7/31/". $currentYear;
+                break;
+
+                case 'August':
+                    $requestUrl = $sDomain ."/api/v3/events?\$expand=instances&instanceStart_from=8/1/" . $currentYear . "&instanceStart_to=8/31/". $currentYear;
+                break;
+            
+                case 'September':
+                    $requestUrl = $sDomain ."/api/v3/events?\$expand=instances&instanceStart_from=9/1/" . $currentYear . "&instanceStart_to=9/30/". $currentYear;
+                break;
+
+                case 'October':
+                    $requestUrl = $sDomain ."/api/v3/events?\$expand=instances&instanceStart_from=10/1/" . $currentYear . "&instanceStart_to=10/31/". $currentYear;
+                break;
+
+                case 'November':
+                    $requestUrl = $sDomain ."/api/v3/events?\$expand=instances&instanceStart_from=11/1/" . $currentYear . "&instanceStart_to=11/30/". $currentYear;
+                break;
+
+                case 'December':
+                    $requestUrl = $sDomain ."/api/v3/events?\$expand=instances&instanceStart_from=12/1/" . $currentYear . "&instanceStart_to=12/31/". $currentYear;
+                break;
+
+                default:
+                $requestUrl = $sDomain ."/api/v3/events?\$expand=instances";
+            }
+
+        }else{
+                       
+            $requestUrl = $sDomain ."/api/v3/events?\$expand=instances";
+        }
+
 
     $response = wp_remote_get( $requestUrl );
 
@@ -262,13 +320,7 @@ function lc_event_import(){
     $rCount = count( $json );
     ?>
 
-    <script>
-            jQuery('#filterDate').click(function(){
-                location.href = '/stocker/wp-admin/edit.php?post_type=lccc_events&page=lc-event-import&month=' + month;
-            });    
-    </script>
-
-    <form id="dates-filter">
+    <form id="dates-filter" method="POST" action="">
         <div class="tablenav top">
             <div class="alignleft actions bulkactions">
                 <select name="month" id="month">
@@ -286,6 +338,9 @@ function lc_event_import(){
                     <option value="November">November</option>
                     <option value="December">December</option>
                 </select>
+                <?php wp_nonce_field( 'filter-date', '_wpnonce_filter-date' ) ?>
+                <input name="action" type="hidden" value="filterdates" />
+
                 <input type="submit" id="filterDate" class="button action" value="Filter Dates">
             </div>
         </div>
