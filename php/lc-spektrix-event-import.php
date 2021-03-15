@@ -33,11 +33,13 @@ function lc_event_import(){
 
     if( !empty( $lc_event_import ) ){
 
-        $requestUrl =  $sDomain . "/api/v3/events/" . $lc_event_import;
+        $requestUrl =  $sDomain . "/api/v3/events/" . $lc_event_import . "?\$expand=instances";
 
         $response = wp_remote_get( $requestUrl );
 
         $json = json_decode( $response['body'] );        
+
+		$lc_spektrix_id = $json->id;
 
         //Retreive Venue Location
         $lc_venue_Request_Url = $sDomain . "/api/v3/instances/" . $lc_spektrix_id . "/plan";
@@ -64,8 +66,8 @@ function lc_event_import(){
 
          wp_set_object_terms($newId, $lc_event_category, 'event_categories', false);
 
-
         update_post_meta( $newId, 'event_meta_box_stocker_spektrix_event_id', esc_attr( $json->id ) ); 
+        update_post_meta( $newId, 'event_meta_box_stocker_spektrix_event_instance_id', esc_attr( $json->instances[0]->id ) ); 
         update_post_meta( $newId, 'event_meta_box_event_location', esc_attr( $_POST['event_meta_box_event_location'] ) );
         update_post_meta( $newId, 'event_start_date', esc_attr( date_format( date_create( $json->firstInstanceDateTime ),"m/d/Y" ) ) );
         update_post_meta( $newId, 'start_date', esc_attr( date_format( date_create( $json->firstInstanceDateTime ),"m/d/Y" ) ) ); 
@@ -91,7 +93,7 @@ function lc_event_import(){
         $lc_post_id = $lc_event_temp[0];
         $lc_spektrix_id = $lc_event_temp[1];
 
-        $requestUrl =  $sDomain . "/api/v3/events/" . $lc_spektrix_id;
+        $requestUrl =  $sDomain . "/api/v3/events/" . $lc_spektrix_id . "?\$expand=instances";
 
         $response = wp_remote_get( $requestUrl );
 
@@ -132,6 +134,7 @@ function lc_event_import(){
 
         update_post_meta( $newId, '_lc_publishedId', $lc_post_id );
         update_post_meta( $newId, 'event_meta_box_stocker_spektrix_event_id', esc_attr( $json->id ) ); 
+        update_post_meta( $newId, 'event_meta_box_stocker_spektrix_event_instance_id', esc_attr( $json->instances[0]->id ) ); 
         update_post_meta( $newId, 'event_start_date', esc_attr( date_format( date_create( $json->firstInstanceDateTime ),"m/d/Y" ) ) );
         update_post_meta( $newId, 'start_date', esc_attr( date_format( date_create( $json->firstInstanceDateTime ),"m/d/Y" ) ) ); 
         update_post_meta( $newId, 'event_start_time', esc_attr( date_format( date_create( $json->firstInstanceDateTime ),"h:i:s A" ) ) ); 
@@ -147,7 +150,7 @@ function lc_event_import(){
         $lc_published_post_meta = get_post_meta($lc_post_id, '', false);
 
         foreach ( $lc_published_post_meta as $key => $value ){
-            if ($key != '_edit_lock' && $key != '_edit_last' && $key != '_lc_publishedId' && $key != 'event_meta_box_stocker_spektrix_event_id' && $key != 'event_start_date' && $key != 'start_date' && $key != 'event_start_time' && $key != 'event_end_date' && $key != 'event_end_time' && $key != 'event_meta_box_event_end_date_and_time_' && $key != 'event_meta_box_ticket_price_s_' && $key != 'event_meta_box_event_location'){
+            if ($key != '_edit_lock' && $key != '_edit_last' && $key != '_lc_publishedId' && $key != 'event_meta_box_stocker_spektrix_event_id' && $key != 'event_meta_box_stocker_spektrix_event_instance_id' && $key != 'event_start_date' && $key != 'start_date' && $key != 'event_start_time' && $key != 'event_end_date' && $key != 'event_end_time' && $key != 'event_meta_box_event_end_date_and_time_' && $key != 'event_meta_box_ticket_price_s_' && $key != 'event_meta_box_event_location'){
                 foreach ($value as $newvalue){
                 add_post_meta($newId, $key, $newvalue, true);
                 }
@@ -169,7 +172,7 @@ function lc_event_import(){
         
         $lc_spektrix_id = $lc_event_sync;
 
-        $requestUrl =  $sDomain . "/api/v3/events/" . $lc_spektrix_id;
+        $requestUrl =  $sDomain . "/api/v3/events/" . $lc_spektrix_id . "?\$expand=instances";
 
         $response = wp_remote_get( $requestUrl );
 
@@ -209,7 +212,8 @@ function lc_event_import(){
         //Updating Event Details from Spektrix
         
         update_post_meta( $newId, '_lc_publishedId', $lc_post_id );
-        update_post_meta( $newId, 'event_meta_box_stocker_spektrix_event_id', esc_attr( $json->id ) ); 
+        update_post_meta( $newId, 'event_meta_box_stocker_spektrix_event_id', esc_attr( $json->id ) );
+        update_post_meta( $newId, 'event_meta_box_stocker_spektrix_event_instance_id', esc_attr( $json->instances[0]->id ) ); 
         update_post_meta( $newId, 'event_start_date', esc_attr( date_format( date_create( $json->firstInstanceDateTime ),"m/d/Y" ) ) );
         update_post_meta( $newId, 'start_date', esc_attr( date_format( date_create( $json->firstInstanceDateTime ),"m/d/Y" ) ) ); 
         update_post_meta( $newId, 'event_start_time', esc_attr( date_format( date_create( $json->firstInstanceDateTime ),"h:i:s A" ) ) ); 
@@ -225,7 +229,7 @@ function lc_event_import(){
         $lc_published_post_meta = get_post_meta($lc_post_id, '', false);
 
         foreach ( $lc_published_post_meta as $key => $value ){
-            if ($key != '_edit_lock' && $key != '_edit_last' && $key != '_lc_publishedId' && $key != 'event_meta_box_stocker_spektrix_event_id' && $key != 'event_start_date' && $key != 'start_date' && $key != 'event_start_time' && $key != 'event_end_date' && $key != 'event_end_time' && $key != 'event_meta_box_event_end_date_and_time_' && $key != 'event_meta_box_ticket_price_s_' && $key != 'event_meta_box_event_location'){
+            if ($key != '_edit_lock' && $key != '_edit_last' && $key != '_lc_publishedId' && $key != 'event_meta_box_stocker_spektrix_event_id' && $key != 'event_meta_box_stocker_spektrix_event_instance_id' && $key != 'event_start_date' && $key != 'start_date' && $key != 'event_start_time' && $key != 'event_end_date' && $key != 'event_end_time' && $key != 'event_meta_box_event_end_date_and_time_' && $key != 'event_meta_box_ticket_price_s_' && $key != 'event_meta_box_event_location'){
                 foreach ($value as $newvalue){
                 add_post_meta($newId, $key, $newvalue, true);
                 }
@@ -370,6 +374,7 @@ function lc_event_import(){
             //echo "</pre>";
 
             //$lc_cat_id = $lc_event_category;
+
     ?>
 
                 <tr>
