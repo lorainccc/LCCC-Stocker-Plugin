@@ -7,7 +7,7 @@
  * @link      http://www.lorainccc.edu
  * @copyright 2016 Lorain County Community College
  */
- 
+
  // Prevent direct file access
 if ( ! defined ( 'ABSPATH' ) ) {
 	exit;
@@ -81,20 +81,22 @@ class LCCC_Stocker_Sponsor_Widget extends WP_Widget {
 					);
 					$newsponsors = new WP_Query($sponsorargs);
 					if ( $newsponsors->have_posts() ) :
-					echo '<div class="row small-up-1 medium-up-2 large-up-4">';
+            echo '<div class="grid-container">';
+					echo '<div class="grid-x grid-margin-x small-up-1 medium-up-2 large-up-4">';
 							while ( $newsponsors->have_posts() ) : $newsponsors->the_post();
 		$assoclink = stocker_sponsor_metabox_get_meta('stocker_sponsor_metabox_associated_link');
-										echo '<div class="column lccc-sponsor">';
+										echo '<div class="cell lccc-sponsor">';
 														echo '<a href="'.$assoclink.'">'; 			the_post_thumbnail();
 														echo '</a>';
 										echo '</div>';
 							endwhile;
 					echo '</div>';
+          echo '</div>';
 					endif;
 	} // end widget
-	
-	
-	public function flush_widget_cache() 
+
+
+	public function flush_widget_cache()
 	{
     	wp_cache_delete( $this->get_widget_slug(), 'widget' );
 	}

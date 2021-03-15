@@ -79,7 +79,39 @@ function run_lccc_stocker_plug_in() {
 	$plugin->run();
 
 }
+
+/**
+ * Adds "Import" button on module list page
+ */
+function lc_addEventImportButton(){
+    global $current_screen;
+
+    // Not our post type, exit earlier
+    // You can remove this if condition if you don't have any specific post type to restrict to. 
+    if ('lccc_events' != $current_screen->post_type) {
+        return;
+    }
+
+    ?>
+	<script type="text/javascript">
+		jQuery(function () {                         
+			jQuery('hr.wp-header-end').before("<a id='doc_popup' href='edit.php?post_type=lccc_events&page=lc-event-import' class='add-new-h2'>Import</a>");
+		});
+	</script>
+<?php
+}
+add_action('admin_head-edit.php','lc_addEventImportButton');
+
+/* function lc_load_custom_wp_admin_style($hook ) {
+	wp_die($hook );
+	}
+	
+add_action('admin_enqueue_scripts', 'lc_load_custom_wp_admin_style' ); */
+
 run_lccc_stocker_plug_in();
+
 require_once( plugin_dir_path( __FILE__ ).'php/lccc_stocker_sponsor_cpt.php' );
 require_once( plugin_dir_path( __FILE__ ).'php/widget-lccc-stocker-sponsor.php' );
 require_once( plugin_dir_path( __FILE__ ).'php/lccc-sponsor-metabox.php' );
+require_once( plugin_dir_path( __FILE__ ).'php/lc-spektrix-event-import.php' );
+require_once( plugin_dir_path( __FILE__ ).'php/lc-spektrix-integration.php' );
