@@ -214,12 +214,13 @@ function lc_event_import(){
         update_post_meta( $newId, '_lc_publishedId', $lc_post_id );
         update_post_meta( $newId, 'event_meta_box_stocker_spektrix_event_id', esc_attr( $json->id ) );
         update_post_meta( $newId, 'event_meta_box_stocker_spektrix_event_instance_id', esc_attr( $json->instances[0]->id ) ); 
-        update_post_meta( $newId, 'event_start_date', esc_attr( date_format( date_create( $json->firstInstanceDateTime ),"m/d/Y" ) ) );
-        update_post_meta( $newId, 'start_date', esc_attr( date_format( date_create( $json->firstInstanceDateTime ),"m/d/Y" ) ) ); 
-        update_post_meta( $newId, 'event_start_time', esc_attr( date_format( date_create( $json->firstInstanceDateTime ),"h:i:s A" ) ) ); 
-        update_post_meta( $newId, 'event_end_date', esc_attr( date_format( date_create( $json->lastInstanceDateTime ),"m/d/Y" ) ) ); 
-        update_post_meta( $newId, 'event_end_time', esc_attr( date_format( date_create( $json->lastInstanceDateTime ),"h:i:s A" ) ) ); 	
-        update_post_meta( $newId, 'event_meta_box_event_end_date_and_time_', esc_attr( date_format( date_create( $json->lastInstanceDateTime ),"m/d/Y h:i:s A" ) ) );	
+        update_post_meta( $newId, 'event_start_date', esc_attr( date_format( date_create( $json->firstInstanceDateTime ), "Y-m-d" ) ) );
+        update_post_meta( $newId, 'start_date', esc_attr( date_format( date_create( $json->firstInstanceDateTime ), "Y-m-d" ) ) ); 
+        update_post_meta( $newId, 'event_start_time', esc_attr( date_format( date_create( $json->firstInstanceDateTime ),"h:i a" ) ) );
+        update_post_meta( $newId, 'event_start_date_time', esc_attr( date_format( date_create( $json->firstInstanceDateTime ),"Y-m-d H:i" ) ) );
+        update_post_meta( $newId, 'event_end_date', esc_attr( date_format( date_create( $json->lastInstanceDateTime ),"Y-m-d" ) ) ); 
+        update_post_meta( $newId, 'event_end_time', esc_attr( date_format( date_create( $json->lastInstanceDateTime ),"h:i a" ) ) ); 	
+        update_post_meta( $newId, 'event_meta_box_event_end_date_and_time_', esc_attr( date_format( date_create( $json->lastInstanceDateTime ),"Y-m-d H:i" ) ) );	
         update_post_meta( $newId, 'event_meta_box_ticket_price_s_', esc_attr( $json->attribute_TicketPrice ) ); 	
         update_post_meta( $newId, 'event_meta_box_event_location', esc_attr( $lc_venue_Name ) );
 
